@@ -23,6 +23,10 @@ bash systemd/install-units.sh   # arm the timers (template-watch, miners, intel,
 Then edit `scope/targets.yaml` + `scope/contracts.yaml`, drop targets into
 `run/ev-queue.txt` (`program/host<TAB>score`), and the machine does the rest.
 
+**Full walkthrough:** [`SETUP.md`](SETUP.md) — the complete deploy with every
+upstream gotcha we hit (stale repos, moved orgs, UFW container networking,
+model context limits, port collisions).
+
 Bounty-beginner workflow lives in `bounty/` — `sync.py` ranks ~950 programs
 from bounty-targets-data + diodb into a priority queue, `run_recon.sh` runs
 the recon chain, `*_solve*.py` are lab-exercise runners (PortSwigger/Juice
