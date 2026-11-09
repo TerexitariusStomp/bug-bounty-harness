@@ -1,0 +1,71 @@
+# LiteLLM router — tiered models with refusal-aware fallbacks.
+# Aliases (tier-a/tier-b/tier-c) are what agents & glue scripts call; the
+# model-bench script rewrites `litellm.model_map` candidates as models drop.
+
+model_list:
+  # ── Tier A: frontier APIs (planning, triage, distillation, reports) ──
+  - model_name: tier-a
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: tier-a
+    litellm_params:
+      model: openrouter/google/gemma-4-31b-it:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: tier-a
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3.5-super-vl:free
+      api_key: os.environ/OPENROUTER_API_KEY
+#  - model_name: tier-a
+#    litellm_params:
+#      model: anthropic/claude-opus-4-5
+#      api_key: os.environ/ANTHROPIC_API_KEY
+#  - model_name: tier-a
+#    litellm_params:
+#      model: openai/gpt-5.1
+#      api_key: os.environ/OPENAI_API_KEY
+#  - model_name: tier-a
+#    litellm_params:
+#      model: gemini/gemini-2.5-pro
+#      api_key: os.environ/GEMINI_API_KEY
+#  - model_name: tier-a
+#    litellm_params:
+#      model: deepseek/deepseek-chat
+#      api_key: os.environ/DEEPSEEK_API_KEY
+  - model_name: tier-a
+    litellm_params:
+      model: xai/grok-4
+      api_key: os.environ/XAI_API_KEY
+
+  # ── Tier B: local uncensored (exploit/payload/PoC — refusal-free) ────
+  # Ornith-1.5-9B on llama-server bound to docker bridge gw 172.17.0.1:8390.
+  - model_name: tier-b
+    litellm_params:
+      model: openai/ornith-uncensored
+      api_base: http://172.18.0.1:8390/v1
+      api_key: noop
+
+  # ── Tier C: small local (parse/classify) — second model optional ─────
+  - model_name: tier-c
+    litellm_params:
+      model: openai/ornith-uncensored
+      api_base: http://172.18.0.1:8390/v1
+      api_key: noop
+
+router_settings:
+  routing_strategy: usage-based-routing-v2
+  num_retries: 2
+  timeout: 600
+  fallbacks: [{"tier-a": ["tier-b"]}]   # refusal/error → uncensored takes it
+  # deep-agent prompts outgrow tier-b's 32k ctx → jump to frontier when keyed
+  context_window_fallbacks: [{"tier-b": ["tier-a"]}]
+  allowed_fails: 3
+  cooldown_time: 60
+
+litellm_settings:
+  drop_params: true
+  set_verbose: false
+  max_budget: 0     # per-key budgets enforced via proxy keys if needed
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

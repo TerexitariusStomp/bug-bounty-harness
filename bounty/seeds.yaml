@@ -1,0 +1,93 @@
+# Live targets from the fastest-cash megaplan (Nov 8 2026).
+# Scores speed/competition/fit are 0-10; state starts at candidate.
+targets:
+  - key: bugcrowd:klaviyo
+    platform: bugcrowd
+    handle: klaviyo
+    payout_max: 3500
+    triage_days: 3
+    scope_assets: 51
+    speed: 9
+    competition: 3
+    fit: 8
+    state: candidate
+    notes: "rank 1 — low competition, fast triage"
+  - key: ywh:harman
+    platform: ywh
+    payout_max: 2000
+    speed: 7
+    competition: 4
+    fit: 6
+    notes: "fresh scope update"
+  - key: ywh:mediamarktsaturn
+    platform: ywh
+    payout_max: 4000
+    speed: 7
+    competition: 4
+    fit: 6
+  - key: ywh:infomaniak
+    platform: ywh
+    payout_max: 7000
+    speed: 7
+    competition: 5
+    fit: 6
+  - key: ywh:expressvpn
+    platform: ywh
+    payout_max: 2500
+    speed: 7
+    competition: 5
+    fit: 5
+  - key: ywh:zecible
+    platform: ywh
+    speed: 6
+    competition: 3
+    fit: 8
+    notes: "beginner-fit 79"
+  - key: ywh:dossier
+    platform: ywh
+    speed: 6
+    competition: 3
+    fit: 8
+  - key: ywh:cyberghost
+    platform: ywh
+    speed: 6
+    competition: 4
+    fit: 8
+  - key: h1:freshworks
+    platform: hackerone
+    speed: 8
+    competition: 5
+    fit: 6
+    notes: "launched Nov 4 — fresh scopes get picked over fast"
+  - key: h1:kiteworks
+    platform: hackerone
+    payout_max: 50000
+    speed: 5
+    competition: 7
+    fit: 5
+  - key: intigriti:eudi-wallet
+    platform: intigriti
+    payout_max: 40000
+    speed: 5
+    competition: 6
+    fit: 5
+  - key: ywh:fluvius
+    platform: ywh
+    payout_max: 5500
+    speed: 6
+    competition: 4
+    fit: 6
+  - key: h1:omarchy
+    platform: hackerone
+    payout_max: 1500
+    speed: 6
+    competition: 5
+    fit: 9
+    notes: "source-code program — personal stack; verify resolution rate"
+  - key: huntr:blind-trust
+    platform: huntr
+    payout_max: 15000
+    speed: 9
+    competition: 4
+    fit: 4
+    notes: "arena, ~4d left — timebox"

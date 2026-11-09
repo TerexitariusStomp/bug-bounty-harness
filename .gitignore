@@ -1,0 +1,24 @@
+# secrets & runtime state — NEVER commit
+.env
+.env.*
+!.env.example
+run/
+logs/
+evidence/
+recon/
+*.imported
+dojo-inbox/
+*.key
+*-admin.txt
+bounty/index.yaml
+bounty/queue.txt
+bounty/logs/
+bounty/data/
+bounty/wordlists/
+bounty/tools/
+bounty/recon/
+bounty/lab_list.json
+intel/coverage.md
+.DS_Store
+__pycache__/
+strix_runs/

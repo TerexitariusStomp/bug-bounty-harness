@@ -1,0 +1,28 @@
+# bb-lab compose — router layer. reNgine & DefectDojo run their own
+# upstream compose stacks under run/ (cloned by bootstrap.sh).
+name: bb-lab
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    restart: unless-stopped
+    ports:
+      - "4000:4000"   # all ifaces: UFW INPUT drop keeps LAN out; docker subnets allowed via ufw rule
+    volumes:
+      - ./litellm.config.yaml:/app/config.yaml:ro
+    env_file: ../.env
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      XAI_API_KEY: ${XAI_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # reach host llama-server
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:4000/health/liveliness"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
